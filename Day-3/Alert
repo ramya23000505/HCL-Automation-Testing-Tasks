@@ -1,0 +1,119 @@
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
+driver = webdriver.Chrome()
+driver.maximize_window()
+
+wait = WebDriverWait(driver, 10)
+
+driver.get("https://www.selenium.dev/selenium/web/alerts.html")
+
+
+# ------------------------------------------------
+# 1. SIMPLE ALERT
+# ------------------------------------------------
+
+print("STEP 1: Finding alert button")
+
+alert_button = wait.until(
+    EC.element_to_be_clickable((By.ID, "alert"))
+)
+
+alert_button.click()
+
+alert = wait.until(EC.alert_is_present())
+
+print("Simple Alert:")
+print(alert.text)
+
+alert.accept()
+
+print("STEP 2: Simple alert completed")
+
+
+# ------------------------------------------------
+# 2. CONFIRM - ACCEPT
+# ------------------------------------------------
+
+print("STEP 3: Finding confirm button")
+
+confirm_button = wait.until(
+    EC.element_to_be_clickable((By.ID, "confirm"))
+)
+
+confirm_button.click()
+
+alert = wait.until(EC.alert_is_present())
+
+print("Confirmation Alert:")
+print(alert.text)
+
+alert.accept()
+
+print("STEP 4: Confirm accepted")
+
+
+# ------------------------------------------------
+# 3. RELOAD PAGE
+# ------------------------------------------------
+
+driver.get("https://www.selenium.dev/selenium/web/alerts.html")
+
+print("STEP 5: Page reloaded")
+
+
+# ------------------------------------------------
+# 4. CONFIRM - DISMISS
+# ------------------------------------------------
+
+print("STEP 6: Finding confirm button")
+
+confirm_button = wait.until(
+    EC.element_to_be_clickable((By.ID, "confirm"))
+)
+
+confirm_button.click()
+
+alert = wait.until(EC.alert_is_present())
+
+print("Confirmation Alert:")
+print(alert.text)
+
+alert.dismiss()
+
+print("STEP 7: Confirm dismissed")
+
+
+# ------------------------------------------------
+# 5. PROMPT
+# ------------------------------------------------
+
+print("STEP 8: Finding prompt button")
+
+prompt_button = wait.until(
+    EC.element_to_be_clickable((By.ID, "prompt"))
+)
+
+prompt_button.click()
+
+alert = wait.until(EC.alert_is_present())
+
+print("Prompt Alert:")
+print(alert.text)
+
+alert.send_keys("Python")
+
+alert.accept()
+
+print("STEP 9: Prompt completed")
+
+
+# ------------------------------------------------
+# CLOSE
+# ------------------------------------------------
+input("Press any key to close the browser...")
+driver.quit()
+
+print("DONE")

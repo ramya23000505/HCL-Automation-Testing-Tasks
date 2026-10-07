@@ -1,0 +1,18 @@
+# 3. Flipkart Mobile Number Login Verification Using Selenium
+
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+import time
+
+driver = webdriver.Chrome()
+
+try:
+    driver.get("https://www.flipkart.com/")
+    driver.maximize_window()
+    time.sleep(5)
+    print("Flipkart opened successfully")
+    input("Browser is open. Press Enter to continue...")
+except Exception as e:
+    print(f"An error occurred: {e}")
+finally:
+    driver.quit()  

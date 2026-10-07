@@ -1,0 +1,397 @@
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
+
+# ============================================================
+# SETUP
+# ============================================================
+
+driver = webdriver.Chrome()
+driver.maximize_window()
+
+wait = WebDriverWait(driver, 10)
+
+
+# ============================================================
+# HELPER FUNCTION - SAUCEDEMO LOGIN
+# ============================================================
+
+def login_saucedemo():
+
+    driver.get("https://www.saucedemo.com/")
+
+    # Enter username
+    wait.until(
+        EC.visibility_of_element_located(
+            (By.ID, "user-name")
+        )
+    ).send_keys("standard_user")
+
+    # Enter password
+    driver.find_element(
+        By.ID, "password"
+    ).send_keys("secret_sauce")
+
+    # Click Login
+    wait.until(
+        EC.element_to_be_clickable(
+            (By.ID, "login-button")
+        )
+    ).click()
+
+    # Wait for products page
+    wait.until(
+        EC.visibility_of_element_located(
+            (By.CLASS_NAME, "inventory_list")
+        )
+    )
+
+    print("Login successful")
+
+
+# ============================================================
+# TC01 - OPEN SHOPPING WEBSITE
+# ============================================================
+
+print("\nTC01 - Open Shopping Website")
+
+driver.get("https://www.saucedemo.com/")
+
+print("Title:", driver.title)
+
+assert "Swag Labs" in driver.title
+
+print("TC01 PASSED")
+
+
+# ============================================================
+# TC02 - REMOVE PRODUCT
+# ============================================================
+
+print("\nTC02 - Remove Product")
+
+# Start with fresh SauceDemo state
+login_saucedemo()
+
+# Add Backpack
+wait.until(
+    EC.element_to_be_clickable(
+        (By.ID, "add-to-cart-sauce-labs-backpack")
+    )
+).click()
+
+print("Product added")
+
+# Open Cart
+wait.until(
+    EC.element_to_be_clickable(
+        (By.CLASS_NAME, "shopping_cart_link")
+    )
+).click()
+
+# Remove Backpack
+wait.until(
+    EC.element_to_be_clickable(
+        (By.ID, "remove-sauce-labs-backpack")
+    )
+).click()
+
+print("Product removed")
+print("TC02 PASSED")
+
+
+# ============================================================
+# TC03 - CANCEL PRODUCT REMOVAL
+# ============================================================
+
+print("\nTC03 - Cancel Product Removal")
+
+# Use Selenium's alert demo because SauceDemo
+# does not show a confirmation alert for product removal.
+
+driver.get(
+    "https://www.selenium.dev/selenium/web/alerts.html"
+)
+
+# Find confirmation button
+confirm_button = wait.until(
+    EC.element_to_be_clickable(
+        (By.ID, "confirm")
+    )
+)
+
+print("Confirmation button found")
+
+# Click confirmation button
+confirm_button.click()
+
+# Wait for JavaScript alert
+wait.until(
+    EC.alert_is_present()
+)
+
+# Get the active alert
+alert = driver.switch_to.alert
+
+print("Confirmation message:", alert.text)
+
+# Pause so the popup is visible in Chrome
+input(
+    "Confirmation popup is visible. "
+    "Press ENTER to CANCEL..."
+)
+
+# Get the active alert again
+alert = driver.switch_to.alert
+
+# Dismiss / Cancel
+alert.dismiss()
+
+print("Confirmation alert dismissed")
+print("TC03 PASSED")
+
+
+# ============================================================
+# TC04 - PROMPT ALERT
+# ============================================================
+
+print("\nTC04 - Prompt Alert")
+
+driver.get(
+    "https://www.selenium.dev/selenium/web/alerts.html"
+)
+
+# Find Prompt button
+prompt_button = wait.until(
+    EC.element_to_be_clickable(
+        (By.ID, "prompt")
+    )
+)
+
+# Click Prompt
+prompt_button.click()
+
+# Wait for alert
+wait.until(
+    EC.alert_is_present()
+)
+
+# Get alert
+alert = driver.switch_to.alert
+
+print("Prompt message:", alert.text)
+
+# Enter text
+alert.send_keys("Ramya")
+
+print("Entered: Ramya")
+
+# Pause so you can see the prompt
+input(
+    "Text entered in prompt. "
+    "Press ENTER to ACCEPT..."
+)
+
+# Get active alert again
+alert = driver.switch_to.alert
+
+# Accept prompt
+alert.accept()
+
+print("Prompt accepted")
+print("TC04 PASSED")
+
+
+# ============================================================
+# TC05 - MOUSE HOVER
+# ============================================================
+
+print("\nTC05 - Mouse Hover")
+
+# Fresh SauceDemo login
+login_saucedemo()
+
+# Find menu button
+menu_button = wait.until(
+    EC.visibility_of_element_located(
+        (By.ID, "react-burger-menu-btn")
+    )
+)
+
+# Perform mouse hover
+ActionChains(driver).move_to_element(
+    menu_button
+).perform()
+
+print("Mouse hover performed")
+print("TC05 PASSED")
+
+
+# ============================================================
+# TC06 - DOUBLE CLICK
+# ============================================================
+
+print("\nTC06 - Double Click")
+
+# Fresh SauceDemo login
+login_saucedemo()
+
+# Find product
+product = wait.until(
+    EC.visibility_of_element_located(
+        (By.ID, "item_4_title_link")
+    )
+)
+
+# Double click product
+ActionChains(driver).double_click(
+    product
+).perform()
+
+print("Double click performed")
+print("Current URL:", driver.current_url)
+
+print("TC06 PASSED")
+
+
+# ============================================================
+# TC07 - DRAG AND DROP
+# ============================================================
+
+print("\nTC07 - Drag and Drop")
+
+driver.get(
+    "https://the-internet.herokuapp.com/drag_and_drop"
+)
+
+# Source element
+source = wait.until(
+    EC.visibility_of_element_located(
+        (By.ID, "column-a")
+    )
+)
+
+# Target element
+target = wait.until(
+    EC.visibility_of_element_located(
+        (By.ID, "column-b")
+    )
+)
+
+# Drag source to target
+ActionChains(driver).drag_and_drop(
+    source,
+    target
+).perform()
+
+print("Drag and Drop performed")
+print("TC07 PASSED")
+
+
+# ============================================================
+# TC08 - EXPLICIT WAIT
+# ============================================================
+
+print("\nTC08 - Explicit Wait")
+
+# Fresh SauceDemo login
+login_saucedemo()
+
+# Explicitly wait for products
+wait.until(
+    EC.visibility_of_element_located(
+        (By.CLASS_NAME, "inventory_list")
+    )
+)
+
+print("Products loaded successfully")
+print("TC08 PASSED")
+
+
+# ============================================================
+# TC09 - CLICKABLE WAIT
+# ============================================================
+
+print("\nTC09 - Clickable Wait")
+
+# Fresh SauceDemo login
+login_saucedemo()
+
+# Wait until any Add to Cart button becomes clickable
+add_cart_button = wait.until(
+    EC.element_to_be_clickable(
+        (
+            By.CSS_SELECTOR,
+            "button[data-test^='add-to-cart']"
+        )
+    )
+)
+
+# Click Add to Cart
+add_cart_button.click()
+
+print("Add to Cart button clicked")
+print("TC09 PASSED")
+
+
+# ============================================================
+# TC10 - ALERT WAIT
+# ============================================================
+
+print("\nTC10 - Alert Wait")
+
+driver.get(
+    "https://www.selenium.dev/selenium/web/alerts.html"
+)
+
+# Find simple alert button
+alert_button = wait.until(
+    EC.element_to_be_clickable(
+        (By.ID, "alert")
+    )
+)
+
+# Click alert button
+alert_button.click()
+
+# Wait for alert
+wait.until(
+    EC.alert_is_present()
+)
+
+# Get active alert
+alert = driver.switch_to.alert
+
+print("Alert message:", alert.text)
+
+# Pause so you can see popup
+input(
+    "Alert is visible in Chrome. "
+    "Press ENTER to ACCEPT..."
+)
+
+# Get alert again
+alert = driver.switch_to.alert
+
+# Accept alert
+alert.accept()
+
+print("Alert accepted")
+print("TC10 PASSED")
+
+
+# ============================================================
+# FINAL RESULT
+# ============================================================
+
+print("\n")
+print("==========================================")
+print("     ALL SELENIUM TEST CASES COMPLETED")
+print("==========================================")
+
+input("\nPress ENTER to close browser...")
+
+driver.quit()

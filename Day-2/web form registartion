@@ -1,0 +1,165 @@
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import Select
+import time
+
+driver = webdriver.Edge()
+
+driver.get("https://vinothqaacademy.com/demo-site/")
+
+time.sleep(5)
+
+
+# ------------------------------------------------
+# FIRST NAME
+# ------------------------------------------------
+
+firstname = driver.find_element(By.ID, "vfb-5")
+firstname.send_keys("Ramya")
+
+time.sleep(2)
+
+
+# ------------------------------------------------
+# LAST NAME
+# ------------------------------------------------
+
+lastname = driver.find_element(By.ID, "vfb-7")
+lastname.send_keys("Rajangam")
+
+time.sleep(2)
+
+
+# ------------------------------------------------
+# GENDER
+# ------------------------------------------------
+
+radio = driver.find_element(By.ID, "vfb-31-2")
+
+if not radio.is_selected():
+    radio.click()
+
+time.sleep(2)
+
+
+# ------------------------------------------------
+# COURSES
+# ------------------------------------------------
+
+check1 = driver.find_element(By.ID, "vfb-20-0")
+
+if not check1.is_selected():
+    check1.click()
+
+time.sleep(1)
+
+
+check2 = driver.find_element(By.ID, "vfb-20-1")
+
+if not check2.is_selected():
+    check2.click()
+
+time.sleep(1)
+
+
+check3 = driver.find_element(By.ID, "vfb-20-2")
+
+if not check3.is_selected():
+    check3.click()
+
+time.sleep(2)
+
+
+# ------------------------------------------------
+# ADDRESS
+# ------------------------------------------------
+
+add = driver.find_element(By.ID, "vfb-13-address")
+add.send_keys("Chennai")
+
+time.sleep(1)
+
+
+# ------------------------------------------------
+# APT / SUITE / BUILDING
+# ------------------------------------------------
+
+driver.find_element(
+    By.ID,
+    "vfb-13-address-2"
+).send_keys("Yamuna Street")
+
+time.sleep(1)
+
+
+# ------------------------------------------------
+# CITY
+# ------------------------------------------------
+
+driver.find_element(
+    By.ID,
+    "vfb-13-city"
+).send_keys("Chennai")
+
+time.sleep(1)
+
+
+# ------------------------------------------------
+# ZIP CODE
+# ------------------------------------------------
+
+driver.find_element(
+    By.ID,
+    "vfb-13-zip"
+).send_keys("600001")
+
+time.sleep(1)
+
+
+# ------------------------------------------------
+# COUNTRY DROPDOWN
+# ------------------------------------------------
+
+country_dropdown = Select(
+    driver.find_element(By.ID, "vfb-13-country")
+)
+
+# Print all available countries
+print("\nAvailable Countries:")
+
+for option in country_dropdown.options:
+    print(option.text)
+
+# Select India
+country_dropdown.select_by_visible_text("India")
+
+print(
+    "Selected country:",
+    country_dropdown.first_selected_option.text
+)
+
+time.sleep(2)
+
+
+# ------------------------------------------------
+# EMAIL
+# ------------------------------------------------
+
+driver.find_element(
+    By.NAME,
+    "vfb-14"
+).send_keys("selenium@gmail.com")
+
+time.sleep(2)
+
+
+# ------------------------------------------------
+# COMPLETED
+# ------------------------------------------------
+
+print("\nForm filling completed.")
+print("Browser will remain open.")
+
+input("Press Enter to close the browser...")
+
+driver.quit()
