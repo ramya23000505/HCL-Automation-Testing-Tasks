@@ -24,7 +24,7 @@ Reg No: 212223230169
 | File | Description |
 |---|---|
 | [Alert.py](https://github.com/user-attachments/files/33141294/Alert.py) | JavaScript alert handling |
-| [Sauce.py](https://github.com/user-attachments/files/33141304/Sauce.py)# HCL-Automation-Testing-Tasks | Selenium test-case automation |
+| [Sauce.py](https://github.com/user-attachments/files/33141304/Sauce.py)| Selenium test-case automation |
 
 ### Test Cases
 
