@@ -1,0 +1,180 @@
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+import time
+
+
+driver = webdriver.Chrome()
+driver.maximize_window()
+
+wait = WebDriverWait(driver, 10)
+
+driver.get("https://demoqa.com/automation-practice-form")
+
+
+# First Name
+first_name = wait.until(
+    EC.visibility_of_element_located(
+        (By.XPATH, "//input[@id='firstName']")
+    )
+)
+first_name.send_keys("Bharathi")
+
+
+# Last Name
+last_name = driver.find_element(
+    By.XPATH, "//input[@id='lastName']"
+)
+last_name.send_keys("M K")
+
+
+# Email
+email = driver.find_element(
+    By.XPATH, "//input[@id='userEmail']"
+)
+email.send_keys("bharathi@example.com")
+
+
+# Gender - Female
+female = wait.until(
+    EC.element_to_be_clickable(
+        (By.XPATH, "//label[@for='gender-radio-2']")
+    )
+)
+female.click()
+
+
+# Mobile Number
+mobile = driver.find_element(
+    By.XPATH, "//input[@id='userNumber']"
+)
+mobile.send_keys("9876543210")
+
+
+# Date of Birth
+dob = driver.find_element(
+    By.XPATH, "//input[@id='dateOfBirthInput']"
+)
+
+dob.click()
+
+dob.send_keys(Keys.CONTROL, "a")
+dob.send_keys("15 Dec 2005")
+dob.send_keys(Keys.ENTER)
+
+
+# Subjects
+subjects = driver.find_element(
+    By.XPATH, "//input[@id='subjectsInput']"
+)
+
+subjects.send_keys("Computer Science")
+subjects.send_keys(Keys.ENTER)
+
+
+# Hobbies - Sports
+sports = wait.until(
+    EC.element_to_be_clickable(
+        (By.XPATH, "//label[@for='hobbies-checkbox-1']")
+    )
+)
+sports.click()
+
+
+# Hobbies - Reading
+reading = wait.until(
+    EC.element_to_be_clickable(
+        (By.XPATH, "//label[@for='hobbies-checkbox-2']")
+    )
+)
+reading.click()
+
+
+# Current Address
+address = driver.find_element(
+    By.XPATH, "//textarea[@id='currentAddress']"
+)
+
+address.send_keys(
+    "Chennai, Tamil Nadu"
+)
+
+
+# State
+state = wait.until(
+    EC.element_to_be_clickable(
+        (By.XPATH, "//div[@id='state']")
+    )
+)
+
+state.click()
+
+
+# Select Tamil Nadu
+state_option = wait.until(
+    EC.element_to_be_clickable(
+        (By.XPATH, "//div[text()='NCR']")
+    )
+)
+
+state_option.click()
+
+
+# City
+city = wait.until(
+    EC.element_to_be_clickable(
+        (By.XPATH, "//div[@id='city']")
+    )
+)
+
+city.click()
+
+
+# Select Delhi
+city_option = wait.until(
+    EC.element_to_be_clickable(
+        (By.XPATH, "//div[text()='Delhi']")
+    )
+)
+
+city_option.click()
+
+
+# Scroll to Submit
+submit = driver.find_element(
+    By.XPATH, "//button[@id='submit']"
+)
+
+driver.execute_script(
+    "arguments[0].scrollIntoView(true);",
+    submit
+)
+
+
+# Submit
+wait.until(
+    EC.element_to_be_clickable(
+        (By.XPATH, "//button[@id='submit']")
+    )
+).click()
+
+
+# Verify submission popup
+success_message = wait.until(
+    EC.visibility_of_element_located(
+        (
+            By.XPATH,
+            "//div[@id='example-modal-sizes-title-lg']"
+        )
+    )
+)
+
+print("Form submitted successfully!")
+print("Message:", success_message.text)
+
+
+time.sleep(3)
+
+driver.quit()
