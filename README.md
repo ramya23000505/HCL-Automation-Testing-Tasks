@@ -41,4 +41,24 @@ Reg No: 212223230169
 | TC09 | Clickable Wait | Expected Conditions |
 | TC10 | Alert Wait | Alert Handling |
 
-**Status:** Completed
+## Day-4
+
+### Selenium XPath – Automation Practice Form
+
+| Project/File | Topic | Description |
+|---|---|---|
+| [Xpath.py](https://github.com/user-attachments/files/33234668/Xpath.py) | **1. Locate Web Elements using XPath** | Used XPath expressions to identify and interact with web elements. |
+| | **2. Automate Practice Form** | Automated the DemoQA Student Registration Form using Selenium. |
+| | **3. Handle Form Elements** | Filled text fields and handled gender, hobbies, subjects, date, state, and city. |
+| | **4. Submit & Verify Form** | Submitted the form and verified the successful submission message. |
+
+## Day-5
+
+### Selenium Web Table Automation
+
+| Project/File | Topic | Description |
+|---|---|---|
+| [web table.py](https://github.com/user-attachments/files/33234676/web.table.py) | **1. Read Entire Table** | Read and print all rows and columns from the web table. |
+| | **2. Get Specific Row/Columns** | Retrieve data from a specific row and its columns. |
+| | **3. Search Employee/Data** | Search for a specific employee or data in the web table. |
+| | **4. Count Rows & Columns** | Count the total number of rows and columns in the web table. |
